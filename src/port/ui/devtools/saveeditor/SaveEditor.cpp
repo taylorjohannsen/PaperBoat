@@ -742,7 +742,7 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_stat_heart_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t curHealth = gPlayerData.curHP;
-                int32_t maxHealth = gPlayerData.curMaxHP;
+                int32_t maxHealth = gPlayerData.hardMaxHP;
                 if (UIWidgets::SliderInt(
                         "##pCurHP", &curHealth,
                         UIWidgets::IntSliderOptions()
@@ -764,9 +764,11 @@ void SaveEditor_DrawPlayerMenu() {
                             .Step(5)
                             .Min(5)
                             .Max(50)
+                            .Tooltip("Not counting equipped HP Plus badges, which add 5 each.")
                     ))
                 {
-                    gPlayerData.curMaxHP = maxHealth;
+                    gPlayerData.hardMaxHP = maxHealth;
+                    enforce_hpfp_limits();
                 };
 
                 // Flower Points
@@ -774,7 +776,7 @@ void SaveEditor_DrawPlayerMenu() {
                 ImGui::Image(gui->GetTextureByName(ui_stat_flower_png), statImageSize);
                 ImGui::TableNextColumn();
                 int32_t curFlower = gPlayerData.curFP;
-                int32_t maxFlower = gPlayerData.curMaxFP;
+                int32_t maxFlower = gPlayerData.hardMaxFP;
                 if (UIWidgets::SliderInt(
                         "##pCurFP", &curFlower,
                         UIWidgets::IntSliderOptions()
@@ -796,9 +798,11 @@ void SaveEditor_DrawPlayerMenu() {
                             .Step(5)
                             .Min(5)
                             .Max(50)
+                            .Tooltip("Not counting equipped FP Plus badges, which add 5 each.")
                     ))
                 {
-                    gPlayerData.curMaxFP = maxFlower;
+                    gPlayerData.hardMaxFP = maxFlower;
+                    enforce_hpfp_limits();
                 };
 
                 // Badge Points
